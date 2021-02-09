@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://thymeleaf.org/">
-<head>
+<head th:replace="fragments :: head">
 	<meta charset="UTF-8"/>
-	<title></title>
+	<title>All Events</title>
 </head>
-<body>
-<ul>
-	<th:block th:each="event : ${events}">
-		<li th:text="${event}">Event Default Text</li>
-	</th:block>
-</ul>
+<body class="container">
+<menu th:replace="fragments :: navigation"></menu>
+
+<p th:unless="${events} and ${events.size()}">There are currently no events!</p>
+<table th:if="${events} and ${events.size() > 0}" class="table-striped">
+	<thead>
+	<tr>
+		<th>Event Name</th>
+	</tr>
+	</thead>
+	<tr th:each="event : ${events}">
+		<td th:text="${event}">Event Default Text</td>
+	</tr>
+</table>
 </body>
 </html>
