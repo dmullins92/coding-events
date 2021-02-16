@@ -8,14 +8,21 @@
 <menu th:replace="fragments :: navigation"></menu>
 
 <p th:unless="${events} and ${events.size()}">There are currently no events!</p>
-<table th:if="${events} and ${events.size() > 0}" class="table-striped">
+<table th:if="${events} and ${events.size() > 0}" class="table table-striped">
 	<thead>
 	<tr>
+		<th>Event ID</th>
 		<th>Event Name</th>
+		<th>Event Description</th>
 	</tr>
 	</thead>
 	<tr th:each="event : ${events}">
-		<td th:text="${event}">Event Default Text</td>
+		<td th:text="${event.id}">Default ID</td>
+		<td th:text="${event.name}">Event Default Text</td>
+		<td th:text="${event.description}">Event Default Description</td>
+		<td>
+			<a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
+		</td>
 	</tr>
 </table>
 </body>
