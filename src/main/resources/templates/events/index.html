@@ -14,12 +14,14 @@
 		<th>Event ID</th>
 		<th>Event Name</th>
 		<th>Event Description</th>
+		<th>Contact Email</th>
 	</tr>
 	</thead>
 	<tr th:each="event : ${events}">
 		<td th:text="${event.id}">Default ID</td>
 		<td th:text="${event.name}">Event Default Text</td>
 		<td th:text="${event.description}">Event Default Description</td>
+		<td th:text="${event.contactEmail}">Contact Default Email</td>
 		<td>
 			<a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
 		</td>
