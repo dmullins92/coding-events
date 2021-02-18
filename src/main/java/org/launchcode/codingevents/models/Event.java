@@ -3,34 +3,46 @@ package org.launchcode.codingevents.models;
 import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class Event {
 
 	private final int id;
-	private static int nextId = 1;
+	private static int nextId = 0;
 
-	@NotBlank
+	@NotBlank(message = "Please add a name for your event.")
 	@Size(min = 3, max = 50, message = "Name must be between 5 and 50 characters.")
 	private String name;
 
 	@Size(max = 500, message = "Description is too long.")
 	private String description;
 
-	@NotBlank
+	@Positive(message = "Please set your maximum attendance.")
+	private int maxNumberAttendees;
+
+	@NotBlank(message = "Please add an email so guests can contact you.")
 	@Email(message = "Must be a valid email.")
 	private String contactEmail;
+
+	@NotBlank(message = "Please add an address for your event.")
+	private String eventAddress;
+
+	private boolean shouldRegister;
 
 	public Event() {
 		this.id = nextId;
 		nextId++;
 	}
 
-	public Event(String name, String description, String contactEmail) {
+	public Event(String name, String description, int maxNumberAttendees, String contactEmail, String eventAddress) {
 		this();
 		this.name = name;
 		this.description = description;
+		this.maxNumberAttendees = maxNumberAttendees;
 		this.contactEmail = contactEmail;
+		this.eventAddress = eventAddress;
+		shouldRegister = false;
 
 	}
 
@@ -52,12 +64,36 @@ public class Event {
 		this.description = description;
 	}
 
+	public int getMaxNumberAttendees() {
+		return maxNumberAttendees;
+	}
+
+	public void setMaxNumberAttendees(int maxNumberAttendees) {
+		this.maxNumberAttendees = maxNumberAttendees;
+	}
+
 	public String getContactEmail() {
 		return contactEmail;
 	}
 
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
+	}
+
+	public String getEventAddress() {
+		return eventAddress;
+	}
+
+	public void setEventAddress(String eventAddress) {
+		this.eventAddress = eventAddress;
+	}
+
+	public boolean getShouldRegister() {
+		return shouldRegister;
+	}
+
+	public void setShouldRegister(boolean shouldRegister) {
+		this.shouldRegister = shouldRegister;
 	}
 
 	public int getId() {

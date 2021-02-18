@@ -21,10 +21,27 @@
 		<p class="error" th:errors="${event.description}"></p>
 	</div>
 	<div class="form-group">
+		<label>Max Attendance
+			<input type="number" th:field="${event.maxNumberAttendees}" class="form-control"/>
+		</label>
+		<p class="error" th:errors="${event.maxNumberAttendees}"></p>
+	</div>
+	<div class="form-group">
+		<label>Event Address
+			<input th:field="${event.eventAddress}" class="form-control"/>
+		</label>
+		<p class="error" th:errors="${event.eventAddress}"></p>
+	</div>
+	<div class="form-group">
 		<label>Contact Email
 			<input th:field="${event.contactEmail}" class="form-control"/>
 		</label>
 		<p class="error" th:errors="${event.contactEmail}"></p>
+	</div>
+	<div class="form-group">
+		<label>Should Register
+			<input type="checkbox" th:field="${event.shouldRegister}" class="form-control"/>
+		</label>
 	</div>
 	<div class="form-group">
 		<input type="submit" value="Create Event" class="btn btn-success"/>

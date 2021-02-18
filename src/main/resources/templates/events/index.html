@@ -14,14 +14,23 @@
 		<th>Event ID</th>
 		<th>Event Name</th>
 		<th>Event Description</th>
+		<th>Maximum Attendance</th>
+		<th>Event Address</th>
 		<th>Contact Email</th>
+		<th>Should Register</th>
 	</tr>
 	</thead>
 	<tr th:each="event : ${events}">
 		<td th:text="${event.id}">Default ID</td>
 		<td th:text="${event.name}">Event Default Text</td>
 		<td th:text="${event.description}">Event Default Description</td>
+		<td th:text="${event.maxNumberAttendees}">Default Attendance</td>
+		<td th:text="${event.eventAddress}">Default Address</td>
 		<td th:text="${event.contactEmail}">Contact Default Email</td>
+		<th:block>
+			<td th:if="${event.shouldRegister}">Yes</td>
+			<td th:if="${!event.shouldRegister}">No</td>
+		</th:block>
 		<td>
 			<a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
 		</td>
