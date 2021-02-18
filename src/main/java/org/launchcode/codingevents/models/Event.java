@@ -21,6 +21,8 @@ public class Event {
 	@Positive(message = "Please set your maximum attendance.")
 	private int maxNumberAttendees;
 
+	private EventType type;
+
 	@NotBlank(message = "Please add an email so guests can contact you.")
 	@Email(message = "Must be a valid email.")
 	private String contactEmail;
@@ -30,23 +32,29 @@ public class Event {
 
 	private boolean shouldRegister;
 
+
+
 	public Event() {
 		this.id = nextId;
 		nextId++;
 	}
 
-	public Event(String name, String description, int maxNumberAttendees, String contactEmail, String eventAddress) {
+	public Event(String name,
+	             String description,
+	             int maxNumberAttendees,
+	             EventType type,
+	             String contactEmail,
+	             String eventAddress) {
 		this();
 		this.name = name;
 		this.description = description;
 		this.maxNumberAttendees = maxNumberAttendees;
+		this.type = type;
 		this.contactEmail = contactEmail;
 		this.eventAddress = eventAddress;
 		shouldRegister = false;
 
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -70,6 +78,14 @@ public class Event {
 
 	public void setMaxNumberAttendees(int maxNumberAttendees) {
 		this.maxNumberAttendees = maxNumberAttendees;
+	}
+
+	public EventType getType() {
+		return type;
+	}
+
+	public void setType(EventType type) {
+		this.type = type;
 	}
 
 	public String getContactEmail() {

@@ -2,6 +2,7 @@ package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,6 +27,7 @@ public class EventController {
 	public String renderCreateEventForm(Model model) {
 		model.addAttribute("title", "Create Events");
 		model.addAttribute("event", new Event());
+		model.addAttribute("types", EventType.values());
 		return "events/create";
 	}
 
@@ -63,6 +65,7 @@ public class EventController {
 	public String displayEditEventForm(Model model, @PathVariable int eventId) {
 		model.addAttribute("title", "Edit " + EventData.getById(eventId).getName() + "(ID: " + eventId + ")");
 		model.addAttribute("event", EventData.getById(eventId));
+		model.addAttribute("types", EventType.values());
 		return "events/edit";
 	}
 
@@ -73,13 +76,15 @@ public class EventController {
 	                                   int maxNumberAttendees,
 	                                   String contactEmail,
 	                                   String eventAddress,
-	                                   boolean shouldRegister) {
+	                                   boolean shouldRegister,
+	                                   EventType type) {
 		EventData.getById(eventId).setName(name);
 		EventData.getById(eventId).setDescription(description);
 		EventData.getById(eventId).setMaxNumberAttendees(maxNumberAttendees);
 		EventData.getById(eventId).setContactEmail(contactEmail);
 		EventData.getById(eventId).setEventAddress(eventAddress);
 		EventData.getById(eventId).setShouldRegister(shouldRegister);
+		EventData.getById(eventId).setType(type);
 		return "redirect:events";
 	}
 }
