@@ -8,10 +8,12 @@ public class Event {
 	private static int nextId = 1;
 	private String name;
 	private String description;
+	private EventType type;
 
-	public Event(String name, String description) {
+	public Event(String name, String description, EventType type) {
 		this.name = name;
 		this.description = description;
+		this.type = type;
 		this.id = nextId;
 		nextId++;
 	}
@@ -30,6 +32,14 @@ public class Event {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public EventType getType() {
+		return type;
+	}
+
+	public void setType(EventType type) {
+		this.type = type;
 	}
 
 	public int getId() {
