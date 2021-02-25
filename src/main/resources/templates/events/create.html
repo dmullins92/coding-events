@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://thymeleaf.org/">
-<head th:replace="fragments :: head">
-	<meta charset="UTF-8"/>
-	<title>Create Event</title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body class="container">
 <menu th:replace="fragments :: navigation"></menu>
 
@@ -27,14 +24,15 @@
 		<p class="error" th:errors="${event.maxNumberAttendees}"></p>
 	</div>
 	<div class="form-group">
-		<label>Event Type
-			<select th:field="${event.type}" class="form-control">
-				<option th:each="type : ${types}"
-				        th:value="${type}"
-				        th:text="${type.displayName}">
+		<label>Event Category
+			<select th:field="${event.eventCategory}" class="form-control">
+				<option th:each="category : ${categories}"
+				        th:value="${category.id}"
+				        th:text="${category.name}">
 				</option>
 			</select>
 		</label>
+		<p class="error" th:error="${event.eventCategory}"></p>
 	</div>
 	<div class="form-group">
 		<label>Event Address

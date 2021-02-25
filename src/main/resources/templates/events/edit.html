@@ -13,36 +13,31 @@
 		<label>Event Name
 			<input th:field="${event.name}" class="form-control" th:value="${event.name}"/>
 		</label>
+		<p class="error" th:errors="${event.name}"></p>
 	</div>
 	<div class="form-group">
 		<label>Event Description
 			<input th:field="${event.description}" class="form-control" th:value="${event.description}"/>
 		</label>
+		<p class="error" th:errors="${event.description}"></p>
 	</div>
 	<div class="form-group">
 		<label>Max Attendance
 			<input type="number" th:field="${event.maxNumberAttendees}" class="form-control" th:value="${event.maxNumberAttendees}"/>
 		</label>
-	</div>
-	<div class="form-group">
-		<label>Event Type
-			<select th:field="${event.type}" class="form-control">
-				<option th:each="type : ${types}"
-				        th:value="${type}"
-				        th:text="${type.displayName}">
-				</option>
-			</select>
-		</label>
+		<p class="error" th:errors="${event.maxNumberAttendees}"></p>
 	</div>
 	<div class="form-group">
 		<label>Event Address
 			<input th:field="${event.eventAddress}" class="form-control" th:value="${event.eventAddress}"/>
 		</label>
+		<p class="error" th:errors="${event.eventAddress}"></p>
 	</div>
 	<div class="form-group">
 		<label>Contact Email
 			<input th:field="${event.contactEmail}" class="form-control" th:value="${event.contactEmail}"/>
 		</label>
+		<p class="error" th:errors="${event.contactEmail}"></p>
 	</div>
 	<div class="form-group">
 		<label>Should Register

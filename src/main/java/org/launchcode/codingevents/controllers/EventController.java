@@ -1,25 +1,44 @@
 package org.launchcode.codingevents.controllers;
 
-import org.launchcode.codingevents.data.EventData;
+import org.launchcode.codingevents.data.EventCategoryRepository;
+import org.launchcode.codingevents.data.EventRepository;
 import org.launchcode.codingevents.models.Event;
-import org.launchcode.codingevents.models.EventType;
+import org.launchcode.codingevents.models.EventCategory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value="events")
 public class EventController {
 
+	@Autowired
+	private EventRepository eventRepository;
+
+	@Autowired
+	private EventCategoryRepository eventCategoryRepository;
+
 	@GetMapping
-	public String displayAllEvents(Model model) {
-		model.addAttribute("events", EventData.getAll());
-		model.addAttribute("title", "Coding Events");
+	public String displayEvents(@RequestParam(required = false) Integer categoryId, Model model) {
+		if(categoryId == null) {
+			model.addAttribute("events", eventRepository.findAll());
+			model.addAttribute("title", "Coding Events");
+		} else {
+			Optional<EventCategory> result = eventCategoryRepository.findById(categoryId);
+			if (result.isEmpty()) {
+				model.addAttribute("title", "Invalid Category ID: " + categoryId);
+			} else {
+				EventCategory category = result.get();
+				model.addAttribute("title", "Events in category: " + category.getName());
+				model.addAttribute("events", category.getEvents());
+			}
+		}
+
 		return "events/index";
 	}
 
@@ -27,7 +46,7 @@ public class EventController {
 	public String renderCreateEventForm(Model model) {
 		model.addAttribute("title", "Create Events");
 		model.addAttribute("event", new Event());
-		model.addAttribute("types", EventType.values());
+		model.addAttribute("categories", eventCategoryRepository.findAll());
 		return "events/create";
 	}
 
@@ -37,17 +56,18 @@ public class EventController {
 	                                     Model model) {
 		if(errors.hasErrors()) {
 			model.addAttribute("title", "Create Events");
-			model.addAttribute("events", EventData.getAll());
+			model.addAttribute("events", eventRepository.findAll());
+			model.addAttribute("categories", eventCategoryRepository.findAll());
 			return "events/create";
 		}
-		EventData.add(newEvent);
+		eventRepository.save(newEvent);
 		return "redirect:";
 	}
 
 	@GetMapping("delete")
 	public String displayDeleteEventForm(Model model) {
 		model.addAttribute("title", "Delete Events");
-		model.addAttribute("events", EventData.getAll());
+		model.addAttribute("events", eventRepository.findAll());
 		return "events/delete";
 	}
 
@@ -55,36 +75,57 @@ public class EventController {
 	public String processDeleteEventForm(@RequestParam(required = false) int[] eventIds) {
 		if(eventIds != null) {
 			for (int id : eventIds) {
-				EventData.remove(id);
+				eventRepository.deleteById(id);
 			}
 		}
 		return "redirect:";
 	}
 
 	@GetMapping("edit/{eventId}")
-	public String displayEditEventForm(Model model, @PathVariable int eventId) {
-		model.addAttribute("title", "Edit " + EventData.getById(eventId).getName() + "(ID: " + eventId + ")");
-		model.addAttribute("event", EventData.getById(eventId));
-		model.addAttribute("types", EventType.values());
+	public String displayEditEventForm(Model model, @PathVariable Integer eventId) {
+		if (eventId == null) {
+			model.addAttribute("events", eventRepository.findAll());
+			model.addAttribute("title", "Coding Events");
+		} else {
+			Optional<Event> result = eventRepository.findById(eventId);
+			if (result.isEmpty()) {
+				model.addAttribute("title", "Invalid Event ID: " + eventId);
+			} else {
+				Event event = result.get();
+				model.addAttribute("title", "Edit " + event.getName() + "(ID: " + eventId + ")");
+				model.addAttribute("event", event);
+				model.addAttribute("categories", eventCategoryRepository.findAll());
+			}
+		}
+
 		return "events/edit";
 	}
 
 	@PostMapping()
-	public String processEditEventForm(int eventId,
+	public String processEditEventForm(Integer eventId,
 	                                   String name,
 	                                   String description,
 	                                   int maxNumberAttendees,
 	                                   String contactEmail,
 	                                   String eventAddress,
 	                                   boolean shouldRegister,
-	                                   EventType type) {
-		EventData.getById(eventId).setName(name);
-		EventData.getById(eventId).setDescription(description);
-		EventData.getById(eventId).setMaxNumberAttendees(maxNumberAttendees);
-		EventData.getById(eventId).setContactEmail(contactEmail);
-		EventData.getById(eventId).setEventAddress(eventAddress);
-		EventData.getById(eventId).setShouldRegister(shouldRegister);
-		EventData.getById(eventId).setType(type);
+	                                   Model model) {
+		if (eventId == null) {
+			model.addAttribute("events", eventRepository.findAll());
+			model.addAttribute("title", "Coding Events");
+		} else {
+			Optional<Event> result = eventRepository.findById(eventId);
+			if (result.isPresent()) {
+				Event event = result.get();
+				event.setName(name);
+				event.setDescription(description);
+				event.setMaxNumberAttendees(maxNumberAttendees);
+				event.setContactEmail(contactEmail);
+				event.setEventAddress(eventAddress);
+				event.setShouldRegister(shouldRegister);
+				eventRepository.save(event);
+			}
+		}
 		return "redirect:events";
 	}
 }

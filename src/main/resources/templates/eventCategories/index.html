@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<menu th:replace="fragments :: navigation"></menu>
+
+<p th:unless="${categories} and ${categories.size()}">There are currently no event categories!</p>
+<table th:if="${categories} and ${categories.size() > 0}" class="table table-striped">
+	<thead>
+	<tr>
+		<th>Event Category Name</th>
+	</tr>
+	</thead>
+	<tr th:each="category : ${categories}">
+		<td><a th:text="${category.name}" th:href="'/events?categoryId=' + ${category.id}"></a></td>
+	</tr>
+</table>
+
+</body>
+</html>

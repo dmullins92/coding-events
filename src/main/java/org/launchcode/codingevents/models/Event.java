@@ -1,15 +1,11 @@
 package org.launchcode.codingevents.models;
 
-import java.util.Objects;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.*;
 
-public class Event {
-
-	private final int id;
-	private static int nextId = 0;
+@Entity
+public class Event extends AbstractEntity {
 
 	@NotBlank(message = "Please add a name for your event.")
 	@Size(min = 3, max = 50, message = "Name must be between 5 and 50 characters.")
@@ -21,7 +17,9 @@ public class Event {
 	@Positive(message = "Please set your maximum attendance.")
 	private int maxNumberAttendees;
 
-	private EventType type;
+	@ManyToOne
+	@NotNull(message = "Category is required.")
+	private EventCategory eventCategory;
 
 	@NotBlank(message = "Please add an email so guests can contact you.")
 	@Email(message = "Must be a valid email.")
@@ -32,24 +30,18 @@ public class Event {
 
 	private boolean shouldRegister;
 
-
-
-	public Event() {
-		this.id = nextId;
-		nextId++;
-	}
+	public Event() {}
 
 	public Event(String name,
 	             String description,
 	             int maxNumberAttendees,
-	             EventType type,
+	             EventCategory eventCategory,
 	             String contactEmail,
 	             String eventAddress) {
-		this();
 		this.name = name;
 		this.description = description;
 		this.maxNumberAttendees = maxNumberAttendees;
-		this.type = type;
+		this.eventCategory = eventCategory;
 		this.contactEmail = contactEmail;
 		this.eventAddress = eventAddress;
 		shouldRegister = false;
@@ -80,12 +72,12 @@ public class Event {
 		this.maxNumberAttendees = maxNumberAttendees;
 	}
 
-	public EventType getType() {
-		return type;
+	public EventCategory getEventCategory() {
+		return eventCategory;
 	}
 
-	public void setType(EventType type) {
-		this.type = type;
+	public void setEventCategory(EventCategory eventCategory) {
+		this.eventCategory = eventCategory;
 	}
 
 	public String getContactEmail() {
@@ -112,25 +104,9 @@ public class Event {
 		this.shouldRegister = shouldRegister;
 	}
 
-	public int getId() {
-		return id;
-	}
-
 	@Override
 	public String toString() {
 		return name;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Event event = (Event) o;
-		return id == event.id;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
 }
