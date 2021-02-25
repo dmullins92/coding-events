@@ -13,15 +13,15 @@
 	</div>
 	<div class="form-group">
 		<label>Event Description
-			<input th:field="${event.description}" class="form-control"/>
+			<input th:field="${event.eventDetails.description}" class="form-control"/>
 		</label>
-		<p class="error" th:errors="${event.description}"></p>
+		<p class="error" th:errors="${event.eventDetails.description}"></p>
 	</div>
 	<div class="form-group">
 		<label>Max Attendance
-			<input type="number" th:field="${event.maxNumberAttendees}" class="form-control"/>
+			<input type="number" th:field="${event.eventDetails.maxNumberAttendees}" class="form-control"/>
 		</label>
-		<p class="error" th:errors="${event.maxNumberAttendees}"></p>
+		<p class="error" th:errors="${event.eventDetails.maxNumberAttendees}"></p>
 	</div>
 	<div class="form-group">
 		<label>Event Category
@@ -36,19 +36,19 @@
 	</div>
 	<div class="form-group">
 		<label>Event Address
-			<input th:field="${event.eventAddress}" class="form-control"/>
+			<input th:field="${event.eventDetails.eventAddress}" class="form-control"/>
 		</label>
-		<p class="error" th:errors="${event.eventAddress}"></p>
+		<p class="error" th:errors="${event.eventDetails.eventAddress}"></p>
 	</div>
 	<div class="form-group">
 		<label>Contact Email
-			<input th:field="${event.contactEmail}" class="form-control"/>
+			<input th:field="${event.eventDetails.contactEmail}" class="form-control"/>
 		</label>
-		<p class="error" th:errors="${event.contactEmail}"></p>
+		<p class="error" th:errors="${event.eventDetails.contactEmail}"></p>
 	</div>
 	<div class="form-group">
 		<label>Should Register
-			<input type="checkbox" th:field="${event.shouldRegister}" class="form-control"/>
+			<input type="checkbox" th:field="${event.eventDetails.shouldRegister}" class="form-control"/>
 		</label>
 	</div>
 	<div class="form-group">

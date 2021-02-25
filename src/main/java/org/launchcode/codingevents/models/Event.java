@@ -1,8 +1,10 @@
 package org.launchcode.codingevents.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Event extends AbstractEntity {
@@ -11,41 +13,24 @@ public class Event extends AbstractEntity {
 	@Size(min = 3, max = 50, message = "Name must be between 5 and 50 characters.")
 	private String name;
 
-	@Size(max = 500, message = "Description is too long.")
-	private String description;
-
-	@Positive(message = "Please set your maximum attendance.")
-	private int maxNumberAttendees;
+	@OneToOne(cascade = CascadeType.ALL)
+	@Valid
+	@NotNull
+	private EventDetails eventDetails;
 
 	@ManyToOne
 	@NotNull(message = "Category is required.")
 	private EventCategory eventCategory;
 
-	@NotBlank(message = "Please add an email so guests can contact you.")
-	@Email(message = "Must be a valid email.")
-	private String contactEmail;
-
-	@NotBlank(message = "Please add an address for your event.")
-	private String eventAddress;
-
-	private boolean shouldRegister;
+	@ManyToMany
+	private final List<EventTag> tags = new ArrayList<>();
 
 	public Event() {}
 
 	public Event(String name,
-	             String description,
-	             int maxNumberAttendees,
-	             EventCategory eventCategory,
-	             String contactEmail,
-	             String eventAddress) {
+	             EventCategory eventCategory) {
 		this.name = name;
-		this.description = description;
-		this.maxNumberAttendees = maxNumberAttendees;
 		this.eventCategory = eventCategory;
-		this.contactEmail = contactEmail;
-		this.eventAddress = eventAddress;
-		shouldRegister = false;
-
 	}
 
 	public String getName() {
@@ -56,20 +41,12 @@ public class Event extends AbstractEntity {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public EventDetails getEventDetails() {
+		return eventDetails;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getMaxNumberAttendees() {
-		return maxNumberAttendees;
-	}
-
-	public void setMaxNumberAttendees(int maxNumberAttendees) {
-		this.maxNumberAttendees = maxNumberAttendees;
+	public void setEventDetails(EventDetails eventDetails) {
+		this.eventDetails = eventDetails;
 	}
 
 	public EventCategory getEventCategory() {
@@ -80,28 +57,12 @@ public class Event extends AbstractEntity {
 		this.eventCategory = eventCategory;
 	}
 
-	public String getContactEmail() {
-		return contactEmail;
+	public List<EventTag> getTags() {
+		return tags;
 	}
 
-	public void setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
-	}
-
-	public String getEventAddress() {
-		return eventAddress;
-	}
-
-	public void setEventAddress(String eventAddress) {
-		this.eventAddress = eventAddress;
-	}
-
-	public boolean getShouldRegister() {
-		return shouldRegister;
-	}
-
-	public void setShouldRegister(boolean shouldRegister) {
-		this.shouldRegister = shouldRegister;
+	public void addTag(EventTag tag) {
+		this.tags.add(tag);
 	}
 
 	@Override
