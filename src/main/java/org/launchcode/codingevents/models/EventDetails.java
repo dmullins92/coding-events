@@ -12,7 +12,7 @@ public class EventDetails extends AbstractEntity {
 	private String description;
 
 	@Positive(message = "Please set your maximum attendance.")
-	private Integer maxNumberAttendees;
+	private int maxNumberAttendees;
 
 	@NotBlank(message = "Please add an email so guests can contact you.")
 	@Email(message = "Must be a valid email.")
