@@ -12,11 +12,11 @@
 	</tr>
 	<tr>
 		<th>Event Description:</th>
-		<td th:text="${event.eventDetails.description}">Event Default Description</td>
+		<td th:text="${event.description}">Event Default Description</td>
 	</tr>
 	<tr>
 		<th>Maximum Attendance:</th>
-		<td th:text="${event.eventDetails.maxNumberAttendees}">Default Attendance</td>
+		<td th:text="${event.maxNumberAttendees}">Default Attendance</td>
 	</tr>
 	<tr>
 		<th>Event Category:</th>
@@ -24,17 +24,17 @@
 	</tr>
 	<tr>
 		<th>Event Address:</th>
-		<td th:text="${event.eventDetails.eventAddress}">Default Address</td>
+		<td th:text="${event.eventAddress}">Default Address</td>
 	</tr>
 	<tr>
 		<th>Contact Email:</th>
-		<td th:text="${event.eventDetails.contactEmail}">Contact Default Email</td>
+		<td th:text="${event.contactEmail}">Contact Default Email</td>
 	</tr>
 	<tr>
 		<th>Should Register:</th>
 		<th:block>
-			<td th:if="${event.eventDetails.shouldRegister}">Yes</td>
-			<td th:if="${!event.eventDetails.shouldRegister}">No</td>
+			<td th:if="${event.shouldRegister}">Yes</td>
+			<td th:if="${!event.shouldRegister}">No</td>
 		</th:block>
 	</tr>
 	<tr>

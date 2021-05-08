@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -150,49 +149,52 @@ public class EventController {
 		return "redirect:add-tag";
 	}
 
-//	@GetMapping("edit/{eventId}")
-//	public String displayEditEventForm(Model model, @PathVariable Integer eventId) {
-//		if (eventId == null) {
-//			model.addAttribute("events", eventRepository.findAll());
-//			model.addAttribute("title", "Coding Events");
-//			return "redirect:events";
-//		} else {
-//			Optional<Event> result = eventRepository.findById(eventId);
-//			if (result.isEmpty()) {
-//				model.addAttribute("title", "Invalid Event ID: " + eventId);
-//			} else {
-//				Event event = result.get();
-//				model.addAttribute("title", "Edit " + event.getName() + "(ID: " + eventId + ")");
-//				model.addAttribute("event", event);
-//				model.addAttribute("categories", eventCategoryRepository.findAll());
-//			}
-//		}
-//		return "events/edit";
-//	}
-//
-//	@PostMapping()
-//	public String processEditEventForm(Integer eventId,
-//	                                   String name,
-//	                                   String description,
-//	                                   Integer maxNumberAttendees,
-//	                                   String contactEmail,
-//	                                   String eventAddress,
-//	                                   boolean shouldRegister,
-//	                                   Model model) {
-//
-//			Optional<Event> result = eventRepository.findById(eventId);
-//			if (result.isEmpty()) {
-//				model.addAttribute("title", "Invalid Event ID: " + eventId);
-//			} else {
-//				Event event = result.get();
-//				event.setName(name);
-//				event.getEventDetails().setDescription(description);
-//				event.getEventDetails().setMaxNumberAttendees(maxNumberAttendees);
-//				event.getEventDetails().setContactEmail(contactEmail);
-//				event.getEventDetails().setEventAddress(eventAddress);
-//				event.getEventDetails().setShouldRegister(shouldRegister);
-//				eventRepository.save(event);
-//			}
-//		return "redirect:events";
-//	}
+	@GetMapping("edit/{eventId}")
+	public String displayEditEventForm(Model model, @PathVariable Integer eventId) {
+		if (eventId == null) {
+			model.addAttribute("events", eventRepository.findAll());
+			model.addAttribute("title", "Coding Events");
+			return "redirect:events";
+		} else {
+			Optional<Event> result = eventRepository.findById(eventId);
+			if (result.isEmpty()) {
+				model.addAttribute("title", "Invalid Event ID: " + eventId);
+			} else {
+				Event event = result.get();
+				model.addAttribute("title", "Edit " + event.getName() + "(ID: " + eventId + ")");
+				model.addAttribute("event", event);
+				model.addAttribute("categories", eventCategoryRepository.findAll());
+			}
+		}
+		return "events/edit";
+	}
+
+	@PostMapping()
+	public String processEditEventForm(Integer eventId,
+	                                   String name,
+	                                   String description,
+	                                   Integer maxNumberAttendees,
+	                                   String contactEmail,
+	                                   String eventAddress,
+	                                   Boolean shouldRegister,
+	                                   Model model) {
+
+			Optional<Event> result = eventRepository.findById(eventId);
+			if (result.isEmpty()) {
+				model.addAttribute("title", "Invalid Event ID: " + eventId);
+			} else {
+				Event event = result.get();
+				event.setName(name);
+				event.setDescription(description);
+				event.setMaxNumberAttendees(maxNumberAttendees);
+				event.setContactEmail(contactEmail);
+				event.setEventAddress(eventAddress);
+				event.setShouldRegister(shouldRegister);
+				if (shouldRegister == null) {
+					event.setShouldRegister(false);
+				}
+				eventRepository.save(event);
+			}
+		return "redirect:events";
+	}
 }

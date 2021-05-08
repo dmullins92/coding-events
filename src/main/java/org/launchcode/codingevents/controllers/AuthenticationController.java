@@ -21,7 +21,7 @@ import java.util.Optional;
 public class AuthenticationController {
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	private static final String userSessionKey = "user";
 
@@ -62,7 +62,7 @@ public class AuthenticationController {
 		User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
 
 		if(existingUser != null) {
-			errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
+			errors.rejectValue("username", "username.alreadyExists", "A user with that username already exists");
 			model.addAttribute("title", "Register New User");
 			return "register";
 		}
